@@ -99,13 +99,14 @@ def dot(a, b):
     R^-1 = x^127 + x^124 + x^121 + x^114 + 1 = 0x01000000000000000000000000000492
     '''
     
-    R  = convert(0x010000000000000000000000000000C2)
-    Ri = convert(0x01000000000000000000000000000492)
-    a_poly = convert(to_hex(a))
-    b_poly = convert(to_hex(b))
+    R  = 0xe1000000000000000000000000000000
+    H  = 0x00000000000000000000000000000040
     
-    ab = gf128_mul(a_poly, b_poly, R)
-    result = convert(gf128_mul(ab, Ri, R))
+    a_poly = to_hex(a)
+    b_poly = to_hex(b)
+    
+    b = gf128_mul(b_poly, H, R)
+    result = gf128_mul(a_poly, b, R)
 
     hs = str(hex(result))
     if result == 0: # special case to get around this awful conversion
